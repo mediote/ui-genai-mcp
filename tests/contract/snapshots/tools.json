@@ -1,0 +1,221 @@
+[
+  {
+    "annotations": {
+      "destructiveHint": false,
+      "idempotentHint": true,
+      "openWorldHint": false,
+      "readOnlyHint": true
+    },
+    "description": "Valida a cadeia OBO -> Microsoft Graph -> SharePoint com a identidade do usuário: perfil (/me), site, biblioteca e arquivo do organograma. Use apenas para diagnóstico.",
+    "inputSchema": {
+      "properties": {},
+      "title": "diag_sharepoint_probeArguments",
+      "type": "object"
+    },
+    "name": "diag_sharepoint_probe",
+    "outputSchema": {
+      "properties": {
+        "erro": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "description": "Tipo do erro (sem detalhes sensíveis).",
+          "title": "Erro"
+        },
+        "etapa_falha": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "description": "Etapa em que a sonda falhou.",
+          "title": "Etapa Falha"
+        },
+        "file_last_modified": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "File Last Modified"
+        },
+        "file_size_bytes": {
+          "anyOf": [
+            {
+              "type": "integer"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "File Size Bytes"
+        },
+        "graph_display_name": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Graph Display Name"
+        },
+        "graph_me_ok": {
+          "anyOf": [
+            {
+              "type": "boolean"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Graph Me Ok"
+        },
+        "mensagem": {
+          "default": "",
+          "title": "Mensagem",
+          "type": "string"
+        },
+        "sharepoint_file_ok": {
+          "anyOf": [
+            {
+              "type": "boolean"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Sharepoint File Ok"
+        },
+        "sharepoint_library_ok": {
+          "anyOf": [
+            {
+              "type": "boolean"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Sharepoint Library Ok"
+        },
+        "sharepoint_site_ok": {
+          "anyOf": [
+            {
+              "type": "boolean"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Sharepoint Site Ok"
+        }
+      },
+      "title": "SharePointProbeResult",
+      "type": "object"
+    },
+    "title": "Diagnóstico: acesso ao SharePoint"
+  },
+  {
+    "annotations": {
+      "destructiveHint": false,
+      "idempotentHint": true,
+      "openWorldHint": false,
+      "readOnlyHint": true
+    },
+    "description": "Retorna a identidade com que o servidor MCP recebeu esta chamada (nome, UPN, versão do token e scopes). Use apenas para diagnóstico de autenticação.",
+    "inputSchema": {
+      "properties": {},
+      "title": "diag_whoamiArguments",
+      "type": "object"
+    },
+    "name": "diag_whoami",
+    "outputSchema": {
+      "properties": {
+        "audience": {
+          "title": "Audience",
+          "type": "string"
+        },
+        "auth_enabled": {
+          "title": "Auth Enabled",
+          "type": "boolean"
+        },
+        "client_app_id": {
+          "description": "App (azp/appid) que obteve o token.",
+          "title": "Client App Id",
+          "type": "string"
+        },
+        "mensagem": {
+          "title": "Mensagem",
+          "type": "string"
+        },
+        "nome": {
+          "description": "Nome do usuário conforme o token.",
+          "title": "Nome",
+          "type": "string"
+        },
+        "scopes": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Scopes",
+          "type": "array"
+        },
+        "tenant_id": {
+          "title": "Tenant Id",
+          "type": "string"
+        },
+        "token_version": {
+          "description": "Versão do token Entra (1.0 ou 2.0).",
+          "title": "Token Version",
+          "type": "string"
+        },
+        "upn": {
+          "description": "UPN/e-mail do usuário conforme o token.",
+          "title": "Upn",
+          "type": "string"
+        },
+        "user_ref": {
+          "description": "Identificador pseudonimizado do usuário (hash).",
+          "title": "User Ref",
+          "type": "string"
+        }
+      },
+      "required": [
+        "user_ref",
+        "nome",
+        "upn",
+        "tenant_id",
+        "client_app_id",
+        "token_version",
+        "audience",
+        "scopes",
+        "auth_enabled",
+        "mensagem"
+      ],
+      "title": "WhoAmIResult",
+      "type": "object"
+    },
+    "title": "Diagnóstico: quem sou eu"
+  }
+]

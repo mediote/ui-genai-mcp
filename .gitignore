@@ -1,0 +1,22 @@
+# Ambiente
+.venv/
+__pycache__/
+*.py[cod]
+.env
+.env.*
+!.env.example
+
+# Ferramentas
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.coverage
+coverage.xml
+htmlcov/
+
+# Dados: nunca versionar o organograma real
+data/*.json
+!data/organograma.sample.json
+
+# Claude Code local
+.claude/settings.local.json
