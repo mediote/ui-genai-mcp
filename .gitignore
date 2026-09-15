@@ -14,9 +14,9 @@ __pycache__/
 coverage.xml
 htmlcov/
 
-# Dados: nunca versionar o organograma real
+# Dados: nunca versionar bases corporativas reais
 data/*.json
-!data/organograma.sample.json
+!data/*.sample.json
 
 # Claude Code local
 .claude/settings.local.json

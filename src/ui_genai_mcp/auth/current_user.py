@@ -6,7 +6,7 @@ from dataclasses import dataclass, field
 
 from mcp.server.auth.middleware.auth_context import get_access_token
 
-from utg_mcp.core.errors import AuthenticationRequired
+from ui_genai_mcp.core.errors import AuthenticationRequired
 
 
 @dataclass(frozen=True, slots=True)

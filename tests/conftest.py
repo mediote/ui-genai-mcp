@@ -6,7 +6,7 @@ from cryptography.hazmat.primitives.asymmetric import rsa
 from pydantic import SecretStr
 
 from support import CLIENT_ID, PUBLIC_BASE_URL, TENANT_ID, StaticKeyResolver, build_claims, sign
-from utg_mcp.core.settings import AppSettings
+from ui_genai_mcp.core.settings import AppSettings
 
 
 @pytest.fixture

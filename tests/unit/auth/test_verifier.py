@@ -15,7 +15,7 @@ from support import (
     build_claims,
     sign,
 )
-from utg_mcp.auth.verifier import EntraTokenVerifier
+from ui_genai_mcp.auth.verifier import EntraTokenVerifier
 
 pytestmark = pytest.mark.anyio
 

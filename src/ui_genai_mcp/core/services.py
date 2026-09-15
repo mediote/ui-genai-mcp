@@ -5,12 +5,12 @@ from dataclasses import dataclass
 import httpx
 from mcp.server.auth.provider import TokenVerifier
 
-from utg_mcp import __version__
-from utg_mcp.auth.obo import OboTokenProvider
-from utg_mcp.auth.verifier import EntraTokenVerifier, JwksSigningKeyResolver
-from utg_mcp.core.errors import ConfigurationError
-from utg_mcp.core.settings import AppSettings
-from utg_mcp.integrations.graph import DelegatedTokenProvider, GraphClient
+from ui_genai_mcp import __version__
+from ui_genai_mcp.auth.obo import OboTokenProvider
+from ui_genai_mcp.auth.verifier import EntraTokenVerifier, JwksSigningKeyResolver
+from ui_genai_mcp.core.errors import ConfigurationError
+from ui_genai_mcp.core.settings import AppSettings
+from ui_genai_mcp.integrations.graph import DelegatedTokenProvider, GraphClient
 
 
 @dataclass(slots=True)
@@ -32,7 +32,7 @@ class Services:
             timeout=httpx.Timeout(settings.graph_timeout_seconds, connect=5.0),
             limits=httpx.Limits(max_connections=50, max_keepalive_connections=10),
             follow_redirects=True,
-            headers={"User-Agent": f"utg-genai-mcp/{__version__}"},
+            headers={"User-Agent": f"ui-genai-mcp/{__version__}"},
         )
         if not settings.auth_enabled:
             return cls(http=http, token_verifier=None, graph=None)

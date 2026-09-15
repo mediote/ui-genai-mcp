@@ -3,10 +3,10 @@
 import pytest
 from mcp import Client
 
-from utg_mcp.core.errors import ConfigurationError
-from utg_mcp.core.services import Services
-from utg_mcp.mcp_server import build_mcp
-from utg_mcp.toolsets.registry import select_toolsets
+from ui_genai_mcp.core.errors import ConfigurationError
+from ui_genai_mcp.core.services import Services
+from ui_genai_mcp.mcp_server import build_mcp
+from ui_genai_mcp.toolsets.registry import select_toolsets
 
 pytestmark = pytest.mark.anyio
 

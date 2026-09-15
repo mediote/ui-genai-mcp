@@ -3,7 +3,7 @@
 This file provides guidance to Claude Code (claude.ai/code) when working with code in this repository.
 
 ## O que é
-Servidor MCP (Python 3.13, Starlette + SDK `mcp` 2.x, Streamable HTTP **stateless**) hospedado em Azure Container Apps e consumido por agentes do Microsoft Foundry (Teams/M365 Copilot). Hospeda vários **toolsets** corporativos; o primeiro é o organograma (porte de `utg-genai-agent/src/agents/tools/az_sharepoint_org.py`). Plano e fases: `docs/phase0-spike.md`.
+Servidor MCP (Python 3.13, Starlette + SDK `mcp` 2.x, Streamable HTTP **stateless**) hospedado em Azure Container Apps e consumido por agentes do Microsoft Foundry (Teams/M365 Copilot). Base reutilizável para projetos de IA: hospeda vários **toolsets** corporativos em fatias verticais. O toolset inicial é o `diagnostico` (`diag_whoami`, `diag_sharepoint_probe`), que valida a cadeia de autenticação Entra + OBO. Plano e fases: `docs/phase0-spike.md`.
 
 Não há FastAPI de propósito: a superfície de negócio são tools MCP (schema/validação vêm do SDK) e o SDK já entrega uma app Starlette. Se surgirem rotas REST de negócio, reavaliar.
 
@@ -15,7 +15,7 @@ uv run pytest tests/unit/auth/test_verifier.py::test_rejects_invalid_claims   # 
 UPDATE_CONTRACTS=1 uv run pytest tests/contract   # regenerar snapshot de contrato das tools
 uv run ruff check src tests scripts && uv run ruff format --check src tests scripts
 uv run mypy src                            # strict
-uv run uvicorn utg_mcp.app:app_factory --factory --reload --port 8000   # local (use .env, AUTH_ENABLED=false)
+uv run uvicorn ui_genai_mcp.app:app_factory --factory --reload --port 8000   # local (use .env, AUTH_ENABLED=false)
 uv run python scripts/smoke_mcp.py --url http://127.0.0.1:8000/mcp --tool diag_whoami
 ```
 
@@ -29,9 +29,9 @@ uv run python scripts/smoke_mcp.py --url http://127.0.0.1:8000/mcp --tool diag_w
 
 ## Regras do projeto
 - Nunca repassar o token do usuário para APIs downstream (token passthrough) — sempre OBO.
-- Nunca logar tokens, argumentos de tools, nomes pesquisados, e-mails ou resultados (LGPD). Identificar usuário só por `user_ref`. Não versionar `Organograma.json` real nem segredos.
+- Nunca logar tokens, argumentos de tools, nomes pesquisados, e-mails ou resultados (LGPD). Identificar usuário só por `user_ref`. Não versionar bases corporativas reais nem segredos.
 - Erros esperados: levantar subclasses de `core/errors.py::AppError`; o texto técnico (`str(exc)`) vai só para log. "Não encontrado" é resultado normal, não erro.
-- Nomes/schemas/annotations de tools são contrato com os agentes: `tests/contract/snapshots/tools.json` quebra em mudanças acidentais. Nomes: `^[a-z0-9_]{1,64}$`, sem pontos; novos toolsets usam prefixo do domínio (os 8 nomes do organograma são exceção legada).
+- Nomes/schemas/annotations de tools são contrato com os agentes: `tests/contract/snapshots/tools.json` quebra em mudanças acidentais. Nomes: `^[a-z0-9_]{1,64}$`, sem pontos; novos toolsets usam prefixo do domínio.
 - Código em inglês; nomes, descrições e mensagens de tools em pt-BR. Tools de leitura usam `READ_ONLY_CLOSED`.
 - `domain/` de cada toolset não importa `mcp`, `starlette` nem `httpx`.
 - Testes: `Client(mcp)` em memória **ignora autenticação**; comportamento de auth/HTTP é testado em `tests/integration/test_http_app.py` com tokens assinados localmente (`tests/support.py`).

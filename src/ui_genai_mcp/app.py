@@ -15,12 +15,12 @@ from starlette.requests import Request
 from starlette.responses import JSONResponse
 from starlette.routing import Mount, Route
 
-from utg_mcp.auth.current_user import CurrentUser
-from utg_mcp.core.logging import setup_logging
-from utg_mcp.core.request_context import RequestContextMiddleware
-from utg_mcp.core.services import Services
-from utg_mcp.core.settings import AppSettings, get_settings
-from utg_mcp.mcp_server import build_mcp
+from ui_genai_mcp.auth.current_user import CurrentUser
+from ui_genai_mcp.core.logging import setup_logging
+from ui_genai_mcp.core.request_context import RequestContextMiddleware
+from ui_genai_mcp.core.services import Services
+from ui_genai_mcp.core.settings import AppSettings, get_settings
+from ui_genai_mcp.mcp_server import build_mcp
 
 
 async def healthz(request: Request) -> JSONResponse:

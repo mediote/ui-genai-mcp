@@ -9,12 +9,12 @@ from contextlib import asynccontextmanager
 from mcp.server.mcpserver.exceptions import ToolError
 from mcp.types import ToolAnnotations
 
-from utg_mcp.auth.current_user import CurrentUser
-from utg_mcp.core.errors import AppError
-from utg_mcp.core.logging import tool_var, user_ref_var
-from utg_mcp.toolsets.base import ToolsetContext
+from ui_genai_mcp.auth.current_user import CurrentUser
+from ui_genai_mcp.core.errors import AppError
+from ui_genai_mcp.core.logging import tool_var, user_ref_var
+from ui_genai_mcp.toolsets.base import ToolsetContext
 
-logger = logging.getLogger("utg_mcp.tools")
+logger = logging.getLogger("ui_genai_mcp.tools")
 
 TOOL_NAME_PATTERN = re.compile(r"^[a-z0-9_]{1,64}$")
 """Nomes de tools: snake_case, <= 64 chars, sem pontos (vira nome de função no modelo)."""
@@ -27,7 +27,7 @@ READ_ONLY_CLOSED = ToolAnnotations(
     idempotent_hint=True,
     open_world_hint=False,
 )
-"""Leitura de base interna fechada (ex.: organograma)."""
+"""Leitura de base interna fechada (fonte corporativa não pública)."""
 
 
 @asynccontextmanager

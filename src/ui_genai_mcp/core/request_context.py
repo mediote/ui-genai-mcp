@@ -10,9 +10,9 @@ import uuid
 
 from starlette.types import ASGIApp, Message, Receive, Scope, Send
 
-from utg_mcp.core.logging import request_id_var
+from ui_genai_mcp.core.logging import request_id_var
 
-logger = logging.getLogger("utg_mcp.access")
+logger = logging.getLogger("ui_genai_mcp.access")
 
 _VALID_REQUEST_ID = re.compile(r"^[A-Za-z0-9._-]{1,64}$")
 _QUIET_PATHS = frozenset({"/healthz", "/readyz"})

@@ -2,15 +2,15 @@ import httpx
 import pytest
 
 from support import FakeTokenProvider
-from utg_mcp.auth.current_user import CurrentUser
-from utg_mcp.integrations.graph import GraphClient
-from utg_mcp.toolsets.diagnostico.tools import probe_sharepoint
-from utg_mcp.toolsets.organograma.settings import OrganogramaSettings
+from ui_genai_mcp.auth.current_user import CurrentUser
+from ui_genai_mcp.integrations.graph import GraphClient
+from ui_genai_mcp.toolsets.diagnostico.settings import SharePointSettings
+from ui_genai_mcp.toolsets.diagnostico.tools import probe_sharepoint
 
 pytestmark = pytest.mark.anyio
 
 USER = CurrentUser("oid", "tid", "Ana", "ana@x", "app", (), "2.0", "aud", assertion="a")
-SP = OrganogramaSettings(
+SP = SharePointSettings(
     _env_file=None,
     sp_hostname="contoso.sharepoint.com",
     sp_site_path="/sites/rh",

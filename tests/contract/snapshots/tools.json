@@ -6,7 +6,7 @@
       "openWorldHint": false,
       "readOnlyHint": true
     },
-    "description": "Valida a cadeia OBO -> Microsoft Graph -> SharePoint com a identidade do usuário: perfil (/me), site, biblioteca e arquivo do organograma. Use apenas para diagnóstico.",
+    "description": "Valida a cadeia OBO -> Microsoft Graph -> SharePoint com a identidade do usuário: perfil (/me), site, biblioteca e arquivo configurados. Use apenas para diagnóstico.",
     "inputSchema": {
       "properties": {},
       "title": "diag_sharepoint_probeArguments",

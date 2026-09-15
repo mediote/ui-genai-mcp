@@ -1,7 +1,7 @@
 import msal
 import pytest
 
-from utg_mcp.auth import obo
+from ui_genai_mcp.auth import obo
 
 GRAPH_SCOPES = ["https://graph.microsoft.com/.default"]
 TOKEN_EVENT = {

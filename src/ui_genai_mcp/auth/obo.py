@@ -10,8 +10,8 @@ from typing import Any, Protocol
 import anyio
 import msal
 
-from utg_mcp.core.cache import KeyedLocks, TtlCache
-from utg_mcp.core.errors import (
+from ui_genai_mcp.core.cache import KeyedLocks, TtlCache
+from ui_genai_mcp.core.errors import (
     AppError,
     AuthenticationRequired,
     ConfigurationError,

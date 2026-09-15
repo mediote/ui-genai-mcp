@@ -7,8 +7,8 @@ from typing import Any, Protocol
 import anyio
 import httpx
 
-from utg_mcp.auth.current_user import CurrentUser
-from utg_mcp.core.errors import (
+from ui_genai_mcp.auth.current_user import CurrentUser
+from ui_genai_mcp.core.errors import (
     AuthenticationRequired,
     ConfigurationError,
     PermissionDenied,

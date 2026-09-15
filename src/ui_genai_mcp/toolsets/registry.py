@@ -6,9 +6,9 @@ Sem auto-discovery de propósito — cada inclusão aparece no diff e é revisad
 
 from collections.abc import Sequence
 
-from utg_mcp.core.errors import ConfigurationError
-from utg_mcp.toolsets import diagnostico
-from utg_mcp.toolsets.base import ToolsetSpec
+from ui_genai_mcp.core.errors import ConfigurationError
+from ui_genai_mcp.toolsets import diagnostico
+from ui_genai_mcp.toolsets.base import ToolsetSpec
 
 ALL_TOOLSETS: tuple[ToolsetSpec, ...] = (diagnostico.TOOLSET,)
 

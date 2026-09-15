@@ -8,17 +8,17 @@ from mcp.server.auth.settings import AuthSettings
 from mcp.server.mcpserver import MCPServer
 from pydantic import AnyHttpUrl
 
-from utg_mcp import __version__
-from utg_mcp.auth.current_user import CurrentUser, resolve_current_user
-from utg_mcp.core.services import Services
-from utg_mcp.core.settings import AppSettings
-from utg_mcp.toolsets.base import ToolsetContext
-from utg_mcp.toolsets.registry import select_toolsets
+from ui_genai_mcp import __version__
+from ui_genai_mcp.auth.current_user import CurrentUser, resolve_current_user
+from ui_genai_mcp.core.services import Services
+from ui_genai_mcp.core.settings import AppSettings
+from ui_genai_mcp.toolsets.base import ToolsetContext
+from ui_genai_mcp.toolsets.registry import select_toolsets
 
 logger = logging.getLogger(__name__)
 
 SERVER_INSTRUCTIONS = (
-    "Servidor MCP corporativo da Ultragaz. Todas as ferramentas atuam com a identidade e as "
+    "Servidor MCP corporativo. Todas as ferramentas atuam com a identidade e as "
     "permissões do usuário autenticado. Responda somente com base no retorno das ferramentas, "
     "sem inventar dados, e respeite a LGPD (não expor dados pessoais sensíveis)."
 )
@@ -41,8 +41,8 @@ def build_mcp(
         )
 
     mcp = MCPServer(
-        name="utg-genai-mcp",
-        title="UTG GenAI MCP",
+        name="ui-genai-mcp",
+        title="UI GenAI MCP",
         version=__version__,
         instructions=SERVER_INSTRUCTIONS,
         token_verifier=services.token_verifier if auth else None,

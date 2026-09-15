@@ -5,11 +5,11 @@ import pytest
 from mcp.server.mcpserver.exceptions import ToolError
 
 from support import CLIENT_ID
-from utg_mcp.auth.current_user import DEV_USER, CurrentUser
-from utg_mcp.core.errors import AuthenticationRequired, PermissionDenied
-from utg_mcp.core.services import Services
-from utg_mcp.toolsets._shared import FORBIDDEN_MESSAGE, tool_invocation
-from utg_mcp.toolsets.base import ToolsetContext, ToolsetSpec
+from ui_genai_mcp.auth.current_user import DEV_USER, CurrentUser
+from ui_genai_mcp.core.errors import AuthenticationRequired, PermissionDenied
+from ui_genai_mcp.core.services import Services
+from ui_genai_mcp.toolsets._shared import FORBIDDEN_MESSAGE, tool_invocation
+from ui_genai_mcp.toolsets.base import ToolsetContext, ToolsetSpec
 
 pytestmark = pytest.mark.anyio
 

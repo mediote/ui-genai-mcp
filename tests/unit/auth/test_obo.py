@@ -5,8 +5,8 @@ from typing import Any
 import anyio
 import pytest
 
-from utg_mcp.auth.obo import OboTokenProvider
-from utg_mcp.core.errors import AuthenticationRequired, ConfigurationError, UpstreamUnavailable
+from ui_genai_mcp.auth.obo import OboTokenProvider
+from ui_genai_mcp.core.errors import AuthenticationRequired, ConfigurationError, UpstreamUnavailable
 
 pytestmark = pytest.mark.anyio
 

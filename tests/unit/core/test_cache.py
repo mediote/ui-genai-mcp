@@ -1,7 +1,7 @@
 import anyio
 import pytest
 
-from utg_mcp.core.cache import KeyedLocks, TtlCache
+from ui_genai_mcp.core.cache import KeyedLocks, TtlCache
 
 
 class Clock:

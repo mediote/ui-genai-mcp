@@ -2,7 +2,7 @@ import pytest
 from pydantic import SecretStr, ValidationError
 
 from support import CLIENT_ID, TENANT_ID
-from utg_mcp.core.settings import AppSettings
+from ui_genai_mcp.core.settings import AppSettings
 
 
 def _auth_kwargs() -> dict[str, object]:
@@ -47,12 +47,12 @@ def test_diagnostics_toolset_requires_explicit_opt_in_in_production():
 
 def test_csv_lists_are_parsed_from_environment(monkeypatch):
     monkeypatch.setenv("AUTH_ENABLED", "false")
-    monkeypatch.setenv("ENABLED_TOOLSETS", "diagnostico, organograma ,")
+    monkeypatch.setenv("ENABLED_TOOLSETS", "diagnostico, exemplo ,")
     monkeypatch.setenv("ALLOWED_HOSTS", "mcp.test,localhost:*")
 
     settings = AppSettings(_env_file=None)
 
-    assert settings.enabled_toolsets == ["diagnostico", "organograma"]
+    assert settings.enabled_toolsets == ["diagnostico", "exemplo"]
     assert settings.allowed_hosts == ["mcp.test", "localhost:*"]
 
 

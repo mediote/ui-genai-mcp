@@ -3,7 +3,7 @@ import logging
 
 import pytest
 
-from utg_mcp.core.logging import (
+from ui_genai_mcp.core.logging import (
     ContextFilter,
     RedactionFilter,
     request_id_var,
@@ -16,7 +16,7 @@ FAKE_JWT = "eyJhbGciOiJSUzI1NiJ9.eyJvaWQiOiIxMjMifQ.c2lnbmF0dXJl"
 
 
 def _record(msg: str, *args: object) -> logging.LogRecord:
-    return logging.LogRecord("utg_mcp.test", logging.INFO, __file__, 1, msg, args, None)
+    return logging.LogRecord("ui_genai_mcp.test", logging.INFO, __file__, 1, msg, args, None)
 
 
 def test_redacts_jwt_and_bearer_from_message_and_args():
@@ -70,14 +70,16 @@ def test_setup_logging_emits_redacted_json(capsys):
     setup_logging("INFO")
     token = request_id_var.set("req-42")
     try:
-        logging.getLogger("utg_mcp.test").info("token recebido %s", FAKE_JWT, extra={"status": 200})
+        logging.getLogger("ui_genai_mcp.test").info(
+            "token recebido %s", FAKE_JWT, extra={"status": 200}
+        )
     finally:
         request_id_var.reset(token)
 
     line = capsys.readouterr().out.strip().splitlines()[-1]
     payload = json.loads(line)
     assert payload["level"] == "INFO"
-    assert payload["logger"] == "utg_mcp.test"
+    assert payload["logger"] == "ui_genai_mcp.test"
     assert payload["request_id"] == "req-42"
     assert payload["status"] == 200
     assert FAKE_JWT not in line

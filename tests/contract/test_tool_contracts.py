@@ -11,11 +11,11 @@ from pathlib import Path
 import pytest
 from mcp import Client
 
-from utg_mcp.core.services import Services
-from utg_mcp.core.settings import AppSettings
-from utg_mcp.mcp_server import build_mcp
-from utg_mcp.toolsets._shared import TOOL_NAME_PATTERN
-from utg_mcp.toolsets.registry import ALL_TOOLSETS
+from ui_genai_mcp.core.services import Services
+from ui_genai_mcp.core.settings import AppSettings
+from ui_genai_mcp.mcp_server import build_mcp
+from ui_genai_mcp.toolsets._shared import TOOL_NAME_PATTERN
+from ui_genai_mcp.toolsets.registry import ALL_TOOLSETS
 
 pytestmark = pytest.mark.anyio
 

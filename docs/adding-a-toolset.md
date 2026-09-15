@@ -1,11 +1,11 @@
 # Como adicionar um toolset
 
-Um **toolset** é um conjunto de tools de um mesmo domínio (ex.: `organograma`, `servicenow`). Cada toolset é autocontido numa pasta e registrado explicitamente num único lugar.
+Um **toolset** é um conjunto de tools de um mesmo domínio (ex.: `servicenow`, `jira`). Cada toolset é autocontido numa pasta e registrado explicitamente num único lugar.
 
 ## 1. Estrutura
 
 ```
-src/utg_mcp/toolsets/<nome>/
+src/ui_genai_mcp/toolsets/<nome>/
   __init__.py      # TOOLSET = ToolsetSpec(...)
   settings.py      # <Nome>Settings(BaseSettings) com env_prefix="<NOME>_"
   models.py        # modelos Pydantic de saída (contrato MCP) — sempre com `mensagem: str`
@@ -20,8 +20,8 @@ src/utg_mcp/toolsets/<nome>/
 
 ```python
 # toolsets/<nome>/__init__.py
-from utg_mcp.toolsets.base import ToolsetSpec
-from utg_mcp.toolsets.<nome>.tools import register
+from ui_genai_mcp.toolsets.base import ToolsetSpec
+from ui_genai_mcp.toolsets.<nome>.tools import register
 
 TOOLSET = ToolsetSpec(
     name="<nome>",                          # valor usado em ENABLED_TOOLSETS
@@ -39,8 +39,8 @@ from typing import Annotated
 from pydantic import Field
 from mcp.server.mcpserver import MCPServer
 
-from utg_mcp.toolsets._shared import READ_ONLY_CLOSED, tool_invocation
-from utg_mcp.toolsets.base import ToolsetContext
+from ui_genai_mcp.toolsets._shared import READ_ONLY_CLOSED, tool_invocation
+from ui_genai_mcp.toolsets.base import ToolsetContext
 
 def register(mcp: MCPServer, ctx: ToolsetContext) -> None:
     @mcp.tool(
@@ -67,7 +67,7 @@ Regras:
 
 ## 4. Registrar
 
-1. Em `src/utg_mcp/toolsets/registry.py`, importe o módulo e inclua `<nome>.TOOLSET` em `ALL_TOOLSETS`.
+1. Em `src/ui_genai_mcp/toolsets/registry.py`, importe o módulo e inclua `<nome>.TOOLSET` em `ALL_TOOLSETS`.
 2. Adicione as variáveis `<NOME>_*` e o nome em `ENABLED_TOOLSETS` no `.env.example` e na configuração do Container App.
 
 ## 5. Testar

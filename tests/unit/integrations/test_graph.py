@@ -4,15 +4,15 @@ import httpx
 import pytest
 
 from support import FakeTokenProvider
-from utg_mcp.auth.current_user import CurrentUser
-from utg_mcp.core.errors import (
+from ui_genai_mcp.auth.current_user import CurrentUser
+from ui_genai_mcp.core.errors import (
     AuthenticationRequired,
     ConfigurationError,
     PermissionDenied,
     ResourceNotFound,
     UpstreamUnavailable,
 )
-from utg_mcp.integrations.graph import GRAPH_DEFAULT_SCOPES, GraphClient
+from ui_genai_mcp.integrations.graph import GRAPH_DEFAULT_SCOPES, GraphClient
 
 pytestmark = pytest.mark.anyio
 

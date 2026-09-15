@@ -1,9 +1,9 @@
-# utg-genai-mcp
+# ui-genai-mcp
 
-Servidor **MCP** (Model Context Protocol) corporativo em **Python (Starlette/SDK MCP) + Docker**, hospedado em **Azure Container Apps** e consumido por agentes do **Microsoft Foundry** (Teams / M365 Copilot). Hospeda múltiplos *toolsets*; o primeiro é o **organograma**.
+Servidor **MCP** (Model Context Protocol) corporativo em **Python (Starlette/SDK MCP) + Docker**, hospedado em **Azure Container Apps** e consumido por agentes do **Microsoft Foundry** (Teams / M365 Copilot). Serve de **base reutilizável** para projetos de IA: autenticação Entra por endpoint, OBO para Microsoft Graph e uma arquitetura de *toolsets* em fatias verticais. O toolset inicial é o `diagnostico`.
 
 ```
-Usuário (Teams/Copilot) ─► Agente Foundry ──Bearer (aud=api://app)──► utg-genai-mcp (/mcp)
+Usuário (Teams/Copilot) ─► Agente Foundry ──Bearer (aud=api://app)──► ui-genai-mcp (/mcp)
         ▲ card de consentimento (1ª vez)                                 │ valida JWT Entra
         └──────────── Entra ID ◄─────────────────────────────────────────┤ OBO (mesmo usuário)
                                                                          ▼
@@ -21,7 +21,7 @@ Usuário (Teams/Copilot) ─► Agente Foundry ──Bearer (aud=api://app)─�
 ```bash
 cp .env.example .env            # AUTH_ENABLED=false
 uv sync
-uv run uvicorn utg_mcp.app:app_factory --factory --reload --port 8000
+uv run uvicorn ui_genai_mcp.app:app_factory --factory --reload --port 8000
 curl http://127.0.0.1:8000/healthz
 uv run python scripts/smoke_mcp.py --url http://127.0.0.1:8000/mcp --tool diag_whoami
 ```

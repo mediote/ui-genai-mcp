@@ -2,7 +2,7 @@
 
 **Pergunta a responder:** quando o agente do Foundry publicado no Teams/M365 Copilot chama este MCP, a chamada chega com o **token do próprio usuário** (após o card de consentimento), permitindo OBO para o Graph?
 
-Não há documentação oficial conclusiva (moderador Microsoft afirma que não; relato de funcionário Microsoft afirma que sim). Por isso validamos com as tools `diag_whoami` e `diag_sharepoint_probe` antes de portar o organograma.
+Não há documentação oficial conclusiva (moderador Microsoft afirma que não; relato de funcionário Microsoft afirma que sim). Por isso validamos com as tools `diag_whoami` e `diag_sharepoint_probe` antes de portar toolsets de negócio.
 
 ## Passos
 1. `uv run pytest` verde; build e deploy conforme `docs/foundry-setup.md` com `ENABLED_TOOLSETS=diagnostico`.
@@ -15,7 +15,7 @@ Não há documentação oficial conclusiva (moderador Microsoft afirma que não;
 8. No dia seguinte (> 1 h): repetir sem novo consentimento (valida refresh/`offline_access`).
 9. Usuário sem acesso ao SharePoint: mensagem amigável, conversa não trava.
 
-Durante os testes, acompanhar logs: `az containerapp logs show -n utg-genai-mcp -g <rg> --follow`. Procurar `access_token_rejected` (campo `reason`; `not_user_token` = chegou token app-only) e `tool_call` (`outcome`).
+Durante os testes, acompanhar logs: `az containerapp logs show -n ui-genai-mcp -g <rg> --follow`. Procurar `access_token_rejected` (campo `reason`; `not_user_token` = chegou token app-only) e `tool_call` (`outcome`).
 
 ## Critérios
 | Resultado | Condição |
@@ -25,7 +25,7 @@ Durante os testes, acompanhar logs: `az containerapp logs show -n utg-genai-mcp 
 | **No-go** | Sem token, token app-only (`not_user_token`) ou consentimento impossível no canal → registrar evidências (horários, `reason`, request ids), abrir chamado Microsoft e avaliar o fallback. |
 
 ## Fallback (não implementado)
-`BlobOrgChartSource` (Organograma.json em Blob, lido pela managed identity do Container App) + autenticação por agent identity/project managed identity. Tools e domínio não mudam. **Perde a autorização por usuário** → exige aceite de LGPD/negócio.
+Fonte de dados em Blob (lido pela managed identity do Container App) + autenticação por agent identity/project managed identity. Tools e domínio não mudam. **Perde a autorização por usuário** → exige aceite de LGPD/negócio.
 
 ## Resultados
 | Data | Canal | Usuário | whoami | probe | Observações |

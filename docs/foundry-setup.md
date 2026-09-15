@@ -11,9 +11,9 @@ Verificar (somente leitura):
 
 ## 2. Container App
 ```bash
-az acr build -r <acr> -t utg-genai-mcp:<tag> .
-az containerapp create -n utg-genai-mcp -g <rg> --environment <env> \
-  --image <acr>.azurecr.io/utg-genai-mcp:<tag> --registry-server <acr>.azurecr.io \
+az acr build -r <acr> -t ui-genai-mcp:<tag> .
+az containerapp create -n ui-genai-mcp -g <rg> --environment <env> \
+  --image <acr>.azurecr.io/ui-genai-mcp:<tag> --registry-server <acr>.azurecr.io \
   --ingress external --target-port 8000 --min-replicas 1 --max-replicas 3 \
   --secrets azure-ad-client-secret=<valor-ou-keyvaultref> \
   --env-vars ENVIRONMENT=dev AUTH_ENABLED=true \
@@ -46,6 +46,6 @@ curl https://<fqdn>/.well-known/oauth-protected-resource/mcp
 Não usar *managed OAuth* com audiência Microsoft (o Foundry bloqueia: "Cannot pass Microsoft token to untrusted MCP endpoint").
 
 ## 4. Agente
-- Tool MCP: `server_label=utg_mcp`, `project_connection_id=<connection>`, `allowed_tools=[...]`, `require_approval="never"` (tools somente leitura).
+- Tool MCP: `server_label=ui_genai_mcp`, `project_connection_id=<connection>`, `allowed_tools=[...]`, `require_approval="never"` (tools somente leitura).
 - Usuários: role **Foundry Agent Consumer** no projeto (mesmo tenant).
 - Publicar inicialmente para "Just you" durante o spike.

@@ -7,9 +7,9 @@ from mcp import Client
 from mcp.client.streamable_http import streamable_http_client
 
 from support import CLIENT_ID, PUBLIC_BASE_URL, REQUIRED_SCOPE_URI, TENANT_ID, FakeTokenProvider
-from utg_mcp.app import create_app
-from utg_mcp.auth.verifier import EntraTokenVerifier
-from utg_mcp.core.services import Services
+from ui_genai_mcp.app import create_app
+from ui_genai_mcp.auth.verifier import EntraTokenVerifier
+from ui_genai_mcp.core.services import Services
 
 pytestmark = pytest.mark.anyio
 

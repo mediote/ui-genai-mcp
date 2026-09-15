@@ -2,17 +2,17 @@ from urllib.parse import quote
 
 from mcp.server.mcpserver import MCPServer
 
-from utg_mcp.auth.current_user import CurrentUser
-from utg_mcp.core.errors import AppError, UpstreamUnavailable
-from utg_mcp.integrations.graph import GraphClient
-from utg_mcp.toolsets._shared import READ_ONLY_CLOSED, tool_invocation
-from utg_mcp.toolsets.base import ToolsetContext
-from utg_mcp.toolsets.diagnostico.models import SharePointProbeResult, WhoAmIResult
-from utg_mcp.toolsets.organograma.settings import OrganogramaSettings
+from ui_genai_mcp.auth.current_user import CurrentUser
+from ui_genai_mcp.core.errors import AppError, UpstreamUnavailable
+from ui_genai_mcp.integrations.graph import GraphClient
+from ui_genai_mcp.toolsets._shared import READ_ONLY_CLOSED, tool_invocation
+from ui_genai_mcp.toolsets.base import ToolsetContext
+from ui_genai_mcp.toolsets.diagnostico.models import SharePointProbeResult, WhoAmIResult
+from ui_genai_mcp.toolsets.diagnostico.settings import SharePointSettings
 
 
 def register(mcp: MCPServer, ctx: ToolsetContext) -> None:
-    sharepoint = OrganogramaSettings()
+    sharepoint = SharePointSettings()
 
     @mcp.tool(
         name="diag_whoami",
@@ -44,7 +44,7 @@ def register(mcp: MCPServer, ctx: ToolsetContext) -> None:
         title="Diagnóstico: acesso ao SharePoint",
         description=(
             "Valida a cadeia OBO -> Microsoft Graph -> SharePoint com a identidade do usuário: "
-            "perfil (/me), site, biblioteca e arquivo do organograma. Use apenas para diagnóstico."
+            "perfil (/me), site, biblioteca e arquivo configurados. Use apenas para diagnóstico."
         ),
         annotations=READ_ONLY_CLOSED,
     )
@@ -61,7 +61,7 @@ def register(mcp: MCPServer, ctx: ToolsetContext) -> None:
 
 
 async def probe_sharepoint(
-    graph: GraphClient, user: CurrentUser, sp: OrganogramaSettings
+    graph: GraphClient, user: CurrentUser, sp: SharePointSettings
 ) -> SharePointProbeResult:
     result = SharePointProbeResult()
 
@@ -112,5 +112,5 @@ async def probe_sharepoint(
         result.mensagem = f"Falha na etapa '{step}': {exc.user_message}"
         return result
 
-    result.mensagem = "OBO, Graph e acesso ao arquivo do organograma validados com sucesso."
+    result.mensagem = "OBO, Graph e acesso ao arquivo configurado validados com sucesso."
     return result

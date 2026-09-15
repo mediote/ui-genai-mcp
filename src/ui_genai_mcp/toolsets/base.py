@@ -5,15 +5,15 @@ from dataclasses import dataclass, field
 
 from mcp.server.mcpserver import MCPServer
 
-from utg_mcp.auth.current_user import CurrentUser
-from utg_mcp.core.services import Services
-from utg_mcp.core.settings import AppSettings
+from ui_genai_mcp.auth.current_user import CurrentUser
+from ui_genai_mcp.core.services import Services
+from ui_genai_mcp.core.settings import AppSettings
 
 
 @dataclass(frozen=True, slots=True)
 class ToolsetSpec:
     name: str
-    """Identificador usado em ENABLED_TOOLSETS (ex.: "organograma")."""
+    """Identificador usado em ENABLED_TOOLSETS (ex.: "diagnostico")."""
     description: str
     register: Callable[[MCPServer, "ToolsetContext"], None]
     required_scopes: frozenset[str] = field(default_factory=frozenset)
