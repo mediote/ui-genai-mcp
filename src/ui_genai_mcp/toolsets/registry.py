@@ -7,10 +7,10 @@ Sem auto-discovery de propósito — cada inclusão aparece no diff e é revisad
 from collections.abc import Sequence
 
 from ui_genai_mcp.core.errors import ConfigurationError
-from ui_genai_mcp.toolsets import diagnostico
+from ui_genai_mcp.toolsets import clima, diagnostico
 from ui_genai_mcp.toolsets.base import ToolsetSpec
 
-ALL_TOOLSETS: tuple[ToolsetSpec, ...] = (diagnostico.TOOLSET,)
+ALL_TOOLSETS: tuple[ToolsetSpec, ...] = (diagnostico.TOOLSET, clima.TOOLSET)
 
 
 def select_toolsets(enabled: Sequence[str]) -> list[ToolsetSpec]:

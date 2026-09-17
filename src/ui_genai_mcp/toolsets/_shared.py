@@ -29,6 +29,14 @@ READ_ONLY_CLOSED = ToolAnnotations(
 )
 """Leitura de base interna fechada (fonte corporativa não pública)."""
 
+READ_ONLY_OPEN = ToolAnnotations(
+    read_only_hint=True,
+    destructive_hint=False,
+    idempotent_hint=True,
+    open_world_hint=True,
+)
+"""Leitura de fonte externa pública (ex.: APIs abertas na internet)."""
+
 
 @asynccontextmanager
 async def tool_invocation(ctx: ToolsetContext, tool_name: str) -> AsyncIterator[CurrentUser]:

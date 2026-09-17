@@ -1,13 +1,22 @@
+from datetime import UTC, datetime
+from typing import Annotated
 from urllib.parse import quote
 
 from mcp.server.mcpserver import MCPServer
+from pydantic import Field
 
+from ui_genai_mcp import __version__
 from ui_genai_mcp.auth.current_user import CurrentUser
 from ui_genai_mcp.core.errors import AppError, UpstreamUnavailable
 from ui_genai_mcp.integrations.graph import GraphClient
 from ui_genai_mcp.toolsets._shared import READ_ONLY_CLOSED, tool_invocation
 from ui_genai_mcp.toolsets.base import ToolsetContext
-from ui_genai_mcp.toolsets.diagnostico.models import SharePointProbeResult, WhoAmIResult
+from ui_genai_mcp.toolsets.diagnostico.models import (
+    EchoResult,
+    ServerInfoResult,
+    SharePointProbeResult,
+    WhoAmIResult,
+)
 from ui_genai_mcp.toolsets.diagnostico.settings import SharePointSettings
 
 
@@ -58,6 +67,47 @@ def register(mcp: MCPServer, ctx: ToolsetContext) -> None:
                     ),
                 )
             return await probe_sharepoint(ctx.services.graph, user, sharepoint)
+
+    @mcp.tool(
+        name="diag_echo",
+        title="Diagnóstico: eco",
+        description=(
+            "Devolve a mensagem enviada junto com o tamanho e o horário de processamento no "
+            "servidor. Use para validar conectividade e a passagem de argumentos ponta a ponta."
+        ),
+        annotations=READ_ONLY_CLOSED,
+    )
+    async def diag_echo(
+        mensagem: Annotated[str, Field(description="Texto a ser ecoado de volta.")],
+    ) -> EchoResult:
+        async with tool_invocation(ctx, "diag_echo") as user:
+            return EchoResult(
+                mensagem=mensagem,
+                tamanho=len(mensagem),
+                recebido_em=datetime.now(UTC).isoformat(),
+                user_ref=user.user_ref,
+            )
+
+    @mcp.tool(
+        name="diag_context_info",
+        title="Diagnóstico: informações do servidor",
+        description=(
+            "Retorna metadados não-sensíveis do servidor MCP e da sessão atual (nome, versão, "
+            "ambiente, toolsets habilitados e hora do servidor). Use apenas para diagnóstico."
+        ),
+        annotations=READ_ONLY_CLOSED,
+    )
+    async def diag_context_info() -> ServerInfoResult:
+        async with tool_invocation(ctx, "diag_context_info") as user:
+            return ServerInfoResult(
+                servidor="ui-genai-mcp",
+                versao=__version__,
+                ambiente=ctx.settings.environment,
+                auth_enabled=ctx.settings.auth_enabled,
+                toolsets_habilitados=list(ctx.settings.enabled_toolsets),
+                user_ref=user.user_ref,
+                hora_servidor=datetime.now(UTC).isoformat(),
+            )
 
 
 async def probe_sharepoint(

@@ -12,4 +12,4 @@ services:
       ENVIRONMENT: dev
       AUTH_ENABLED: "false"
       ALLOWED_HOSTS: "localhost:*,127.0.0.1:*"
-      ENABLED_TOOLSETS: diagnostico
+      ENABLED_TOOLSETS: diagnostico,clima
