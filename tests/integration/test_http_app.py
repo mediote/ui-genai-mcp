@@ -111,7 +111,12 @@ async def test_end_to_end_tool_call_sees_authenticated_user(app, make_token):
         tools = await client.list_tools()
         result = await client.call_tool("diag_whoami", {})
 
-    assert {tool.name for tool in tools.tools} == {"diag_whoami", "diag_sharepoint_probe"}
+    assert {tool.name for tool in tools.tools} == {
+        "diag_whoami",
+        "diag_sharepoint_probe",
+        "diag_echo",
+        "diag_context_info",
+    }
     assert not result.is_error
     assert result.structured_content is not None
     assert result.structured_content["upn"] == "ana.teste@example.com"

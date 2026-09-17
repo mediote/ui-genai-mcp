@@ -38,7 +38,7 @@ class AppSettings(BaseSettings):
     graph_timeout_seconds: float = Field(default=20.0, gt=0)
 
     # Toolsets
-    enabled_toolsets: CsvList = Field(default_factory=lambda: ["diagnostico"])
+    enabled_toolsets: CsvList = Field(default_factory=lambda: ["diagnostico", "clima"])
     allow_diagnostics_in_prd: bool = False
 
     @field_validator("allowed_hosts", "allowed_origins", "enabled_toolsets", mode="before")

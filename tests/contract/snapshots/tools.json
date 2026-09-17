@@ -3,6 +3,396 @@
     "annotations": {
       "destructiveHint": false,
       "idempotentHint": true,
+      "openWorldHint": true,
+      "readOnlyHint": true
+    },
+    "description": "Retorna as condições meteorológicas atuais de uma cidade (temperatura, sensação térmica, umidade, vento e descrição do tempo). Fonte: Open-Meteo (pública).",
+    "inputSchema": {
+      "properties": {
+        "cidade": {
+          "description": "Nome da cidade, ex.: 'São Paulo' ou 'Lisboa'.",
+          "title": "Cidade",
+          "type": "string"
+        }
+      },
+      "required": [
+        "cidade"
+      ],
+      "title": "clima_atualArguments",
+      "type": "object"
+    },
+    "name": "clima_atual",
+    "outputSchema": {
+      "description": "Condições atuais de uma localidade.",
+      "properties": {
+        "cidade": {
+          "description": "Nome da localidade resolvida.",
+          "title": "Cidade",
+          "type": "string"
+        },
+        "condicao": {
+          "description": "Descrição do tempo em pt-BR.",
+          "title": "Condicao",
+          "type": "string"
+        },
+        "latitude": {
+          "title": "Latitude",
+          "type": "number"
+        },
+        "longitude": {
+          "title": "Longitude",
+          "type": "number"
+        },
+        "observado_em": {
+          "description": "Instante da observação (ISO 8601, fuso local).",
+          "title": "Observado Em",
+          "type": "string"
+        },
+        "pais": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "description": "País da localidade.",
+          "title": "Pais"
+        },
+        "sensacao_c": {
+          "anyOf": [
+            {
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "description": "Sensação térmica em Celsius.",
+          "title": "Sensacao C"
+        },
+        "temperatura_c": {
+          "description": "Temperatura atual em graus Celsius.",
+          "title": "Temperatura C",
+          "type": "number"
+        },
+        "umidade_pct": {
+          "anyOf": [
+            {
+              "type": "integer"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "description": "Umidade relativa do ar (%).",
+          "title": "Umidade Pct"
+        },
+        "vento_kmh": {
+          "anyOf": [
+            {
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "description": "Velocidade do vento (km/h).",
+          "title": "Vento Kmh"
+        }
+      },
+      "required": [
+        "cidade",
+        "latitude",
+        "longitude",
+        "temperatura_c",
+        "condicao",
+        "observado_em"
+      ],
+      "title": "ClimaAtualResult",
+      "type": "object"
+    },
+    "title": "Clima: condições atuais"
+  },
+  {
+    "annotations": {
+      "destructiveHint": false,
+      "idempotentHint": true,
+      "openWorldHint": true,
+      "readOnlyHint": true
+    },
+    "description": "Retorna a previsão diária de uma cidade (mínima, máxima, probabilidade de chuva e descrição do tempo) para os próximos dias. Fonte: Open-Meteo (pública).",
+    "inputSchema": {
+      "properties": {
+        "cidade": {
+          "description": "Nome da cidade, ex.: 'São Paulo' ou 'Lisboa'.",
+          "title": "Cidade",
+          "type": "string"
+        },
+        "dias": {
+          "default": 3,
+          "description": "Quantidade de dias a prever (1 a 16).",
+          "maximum": 16,
+          "minimum": 1,
+          "title": "Dias",
+          "type": "integer"
+        }
+      },
+      "required": [
+        "cidade"
+      ],
+      "title": "clima_previsaoArguments",
+      "type": "object"
+    },
+    "name": "clima_previsao",
+    "outputSchema": {
+      "$defs": {
+        "DiaPrevisao": {
+          "description": "Previsão consolidada de um dia.",
+          "properties": {
+            "condicao": {
+              "description": "Descrição do tempo em pt-BR.",
+              "title": "Condicao",
+              "type": "string"
+            },
+            "data": {
+              "description": "Data do dia (YYYY-MM-DD).",
+              "title": "Data",
+              "type": "string"
+            },
+            "prob_chuva_pct": {
+              "anyOf": [
+                {
+                  "type": "integer"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "default": null,
+              "description": "Probabilidade máxima de precipitação no dia (%).",
+              "title": "Prob Chuva Pct"
+            },
+            "temp_max_c": {
+              "anyOf": [
+                {
+                  "type": "number"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "default": null,
+              "description": "Temperatura máxima (°C).",
+              "title": "Temp Max C"
+            },
+            "temp_min_c": {
+              "anyOf": [
+                {
+                  "type": "number"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "default": null,
+              "description": "Temperatura mínima (°C).",
+              "title": "Temp Min C"
+            }
+          },
+          "required": [
+            "data",
+            "condicao"
+          ],
+          "title": "DiaPrevisao",
+          "type": "object"
+        }
+      },
+      "description": "Previsão diária de uma localidade.",
+      "properties": {
+        "cidade": {
+          "description": "Nome da localidade resolvida.",
+          "title": "Cidade",
+          "type": "string"
+        },
+        "dias": {
+          "description": "Previsão diária, em ordem cronológica.",
+          "items": {
+            "$ref": "#/$defs/DiaPrevisao"
+          },
+          "title": "Dias",
+          "type": "array"
+        },
+        "latitude": {
+          "title": "Latitude",
+          "type": "number"
+        },
+        "longitude": {
+          "title": "Longitude",
+          "type": "number"
+        },
+        "pais": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "description": "País da localidade.",
+          "title": "Pais"
+        }
+      },
+      "required": [
+        "cidade",
+        "latitude",
+        "longitude",
+        "dias"
+      ],
+      "title": "ClimaPrevisaoResult",
+      "type": "object"
+    },
+    "title": "Clima: previsão dos próximos dias"
+  },
+  {
+    "annotations": {
+      "destructiveHint": false,
+      "idempotentHint": true,
+      "openWorldHint": false,
+      "readOnlyHint": true
+    },
+    "description": "Retorna metadados não-sensíveis do servidor MCP e da sessão atual (nome, versão, ambiente, toolsets habilitados e hora do servidor). Use apenas para diagnóstico.",
+    "inputSchema": {
+      "properties": {},
+      "title": "diag_context_infoArguments",
+      "type": "object"
+    },
+    "name": "diag_context_info",
+    "outputSchema": {
+      "description": "Metadados não-sensíveis do servidor e da sessão corrente.",
+      "properties": {
+        "ambiente": {
+          "description": "Ambiente de execução (dev, hml ou prd).",
+          "title": "Ambiente",
+          "type": "string"
+        },
+        "auth_enabled": {
+          "description": "Se a autenticação Entra está ativa.",
+          "title": "Auth Enabled",
+          "type": "boolean"
+        },
+        "hora_servidor": {
+          "description": "Hora atual do servidor em UTC (ISO 8601).",
+          "title": "Hora Servidor",
+          "type": "string"
+        },
+        "servidor": {
+          "description": "Nome do servidor MCP.",
+          "title": "Servidor",
+          "type": "string"
+        },
+        "toolsets_habilitados": {
+          "description": "Toolsets carregados neste servidor.",
+          "items": {
+            "type": "string"
+          },
+          "title": "Toolsets Habilitados",
+          "type": "array"
+        },
+        "user_ref": {
+          "description": "Identificador pseudonimizado de quem chamou.",
+          "title": "User Ref",
+          "type": "string"
+        },
+        "versao": {
+          "description": "Versão do servidor.",
+          "title": "Versao",
+          "type": "string"
+        }
+      },
+      "required": [
+        "servidor",
+        "versao",
+        "ambiente",
+        "auth_enabled",
+        "toolsets_habilitados",
+        "user_ref",
+        "hora_servidor"
+      ],
+      "title": "ServerInfoResult",
+      "type": "object"
+    },
+    "title": "Diagnóstico: informações do servidor"
+  },
+  {
+    "annotations": {
+      "destructiveHint": false,
+      "idempotentHint": true,
+      "openWorldHint": false,
+      "readOnlyHint": true
+    },
+    "description": "Devolve a mensagem enviada junto com o tamanho e o horário de processamento no servidor. Use para validar conectividade e a passagem de argumentos ponta a ponta.",
+    "inputSchema": {
+      "properties": {
+        "mensagem": {
+          "description": "Texto a ser ecoado de volta.",
+          "title": "Mensagem",
+          "type": "string"
+        }
+      },
+      "required": [
+        "mensagem"
+      ],
+      "title": "diag_echoArguments",
+      "type": "object"
+    },
+    "name": "diag_echo",
+    "outputSchema": {
+      "description": "Eco simples: confirma que o servidor recebeu e processou a chamada.",
+      "properties": {
+        "mensagem": {
+          "description": "A mesma mensagem enviada (eco).",
+          "title": "Mensagem",
+          "type": "string"
+        },
+        "recebido_em": {
+          "description": "Instante UTC (ISO 8601) em que o servidor processou.",
+          "title": "Recebido Em",
+          "type": "string"
+        },
+        "tamanho": {
+          "description": "Número de caracteres da mensagem recebida.",
+          "title": "Tamanho",
+          "type": "integer"
+        },
+        "user_ref": {
+          "description": "Identificador pseudonimizado de quem chamou.",
+          "title": "User Ref",
+          "type": "string"
+        }
+      },
+      "required": [
+        "mensagem",
+        "tamanho",
+        "recebido_em",
+        "user_ref"
+      ],
+      "title": "EchoResult",
+      "type": "object"
+    },
+    "title": "Diagnóstico: eco"
+  },
+  {
+    "annotations": {
+      "destructiveHint": false,
+      "idempotentHint": true,
       "openWorldHint": false,
       "readOnlyHint": true
     },

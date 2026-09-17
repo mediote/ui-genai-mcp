@@ -24,6 +24,17 @@ dev = [
     "ruff>=0.12",
     "mypy>=1.17",
 ]
+# Cliente de teste (notebook): agente LangChain que consome as tools MCP.
+# Instale sob demanda: `uv sync --group notebook`. Não entra no runtime do servidor.
+# Sem langchain-mcp-adapters: a versão atual só suporta mcp 1.x; o notebook usa o
+# client do mcp 2.x (já é dependência do projeto) direto.
+notebook = [
+    "langchain>=1.0",
+    "langchain-openai>=0.3",
+    "azure-identity>=1.19",
+    "jupyterlab>=4.3",
+    "ipykernel>=6.29",
+]
 
 [build-system]
 requires = ["uv_build>=0.8,<1"]

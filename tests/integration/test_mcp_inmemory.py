@@ -24,10 +24,35 @@ async def dev_client(dev_settings):
 async def test_lists_diagnostic_tools(dev_client):
     tools = {tool.name: tool for tool in (await dev_client.list_tools()).tools}
 
-    assert set(tools) == {"diag_whoami", "diag_sharepoint_probe"}
+    assert set(tools) == {
+        "diag_whoami",
+        "diag_sharepoint_probe",
+        "diag_echo",
+        "diag_context_info",
+    }
     assert tools["diag_whoami"].annotations is not None
     assert tools["diag_whoami"].annotations.read_only_hint is True
     assert tools["diag_whoami"].output_schema is not None
+
+
+async def test_echo_returns_message_and_size(dev_client):
+    result = await dev_client.call_tool("diag_echo", {"mensagem": "olá mundo"})
+
+    assert not result.is_error
+    assert result.structured_content is not None
+    assert result.structured_content["mensagem"] == "olá mundo"
+    assert result.structured_content["tamanho"] == len("olá mundo")
+    assert result.structured_content["recebido_em"]
+
+
+async def test_context_info_reports_server_metadata(dev_client):
+    result = await dev_client.call_tool("diag_context_info", {})
+
+    assert not result.is_error
+    assert result.structured_content is not None
+    assert result.structured_content["servidor"] == "ui-genai-mcp"
+    assert result.structured_content["auth_enabled"] is False
+    assert "diagnostico" in result.structured_content["toolsets_habilitados"]
 
 
 async def test_whoami_returns_dev_user_in_dev_mode(dev_client):
